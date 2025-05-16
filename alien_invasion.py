@@ -67,6 +67,8 @@ class AlienInvasion():
         """Запускает новую игру при нажатии кнопки Play."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
+            # Сброс игровых настроек.
+            self.settings.initialize_dinamic_settings()
             # Сброс игровой статистики.
             self.stats.reset_stats()
             self.stats.game_active = True
@@ -81,8 +83,6 @@ class AlienInvasion():
 
             # Указатель мыши скрывается.
             pygame.mouse.set_visible(False)
-            
-
                   
     def _check_keydown_events(self, event):
         '''Реагирует на нажатия клавиш.'''
@@ -128,9 +128,10 @@ class AlienInvasion():
                     self.bullets, self.aliens, True, True)
         
         if not self.aliens:
-            # Уничтожение существующих снарядов и создание нового флота.
-            self.bullets.empty()
-            self._create_fleet()
+           # Уничтожение существующих снарядов и создание нового флота.
+           self.bullets.empty()
+           self._create_fleet() 
+           self.settings.increase_speed()
 
     def _update_aliens(self):
         '''
